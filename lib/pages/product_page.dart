@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../providers/cart_provider.dart';
 import 'dart:developer' as developer;
+import 'package:akubakul/pages/detail_chat_page.dart';
 
 class ProductPage extends StatefulWidget {
   final String productId;
@@ -334,6 +335,33 @@ class _ProductPageState extends State<ProductPage>
           Row(
             children: [
               _circleIcon('assets/icon_search-normal.png'),
+              const SizedBox(width: 10),
+              GestureDetector(
+                onTap: () => _navigateToChat(),
+                child: Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    color: Grey50,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Image.asset(
+                      'assets/icon_chat.png',
+                      width: 20,
+                      height: 20,
+                      color: White,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(
+                          Icons.chat_bubble_outline,
+                          size: 20,
+                          color: White,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
               const SizedBox(width: 10),
               GestureDetector(
                 onTap: () => Navigator.pushNamed(context, '/cart'),
@@ -863,6 +891,37 @@ class _ProductPageState extends State<ProductPage>
       ),
       child: Row(
         children: [
+          // Tombol chat
+          Container(
+            width: 54,
+            height: 54,
+            margin: const EdgeInsets.only(right: 14),
+            child: TextButton(
+              onPressed: _navigateToChat,
+              style: TextButton.styleFrom(
+                backgroundColor: Grey50,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Center(
+                child: Image.asset(
+                  'assets/icon_chat.png',
+                  width: 24,
+                  height: 24,
+                  color: Cyan,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Icon(
+                      Icons.chat_bubble_outline,
+                      size: 24,
+                      color: Cyan,
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+          // Tombol beli & tambah cart
           Expanded(
             child: OutlinedButton(
               style: OutlinedButton.styleFrom(
@@ -957,5 +1016,44 @@ class _ProductPageState extends State<ProductPage>
         ],
       ),
     );
+  }
+
+  // Fungsi untuk navigasi ke halaman detail chat
+  void _navigateToChat() {
+    ProductProvider productProvider = Provider.of<ProductProvider>(
+      context,
+      listen: false,
+    );
+    ProductModel? product = productProvider.selectedProduct;
+
+    if (product != null) {
+      developer.log(
+        'ProductPage - navigateToChat: Membuka chat untuk produk ${product.name}',
+      );
+
+      // Navigasi ke halaman chat dengan parameter produk
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder:
+              (context) => DetailChatPage(
+                productData: {
+                  'productId': product.id,
+                  'productName': product.name,
+                  'productImage':
+                      product.galleries.isNotEmpty
+                          ? product.galleries[0].url
+                          : '',
+                  'productPrice': product.price,
+                },
+              ),
+        ),
+      );
+    } else {
+      developer.log('ProductPage - navigateToChat: ERROR - product is null');
+
+      // Fallback jika produk tidak tersedia
+      Navigator.pushNamed(context, '/detail-chat');
+    }
   }
 }

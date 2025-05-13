@@ -16,8 +16,11 @@ import 'widgets/profile/edit_profile_page.dart';
 import 'widgets/profile/change_password_page.dart';
 import 'providers/cart_provider.dart';
 import 'providers/transaction_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

@@ -6,7 +6,7 @@ class ChatBubble extends StatelessWidget {
   final bool isMe;
   final String time;
   final bool isProductQuestion;
-  final Map<String, String>? product;
+  final Map<String, dynamic>? product;
 
   const ChatBubble({
     super.key,
@@ -53,12 +53,7 @@ class ChatBubble extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: Image.asset(
-                      product!['image']!,
-                      width: 40,
-                      height: 40,
-                      fit: BoxFit.cover,
-                    ),
+                    child: _buildProductImage(),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
@@ -66,7 +61,7 @@ class ChatBubble extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          product!['name']!,
+                          product!['name']?.toString() ?? 'Produk',
                           style: primaryTextStyle.copyWith(
                             color: isMe ? Black : White,
                             fontWeight: medium,
@@ -75,7 +70,7 @@ class ChatBubble extends StatelessWidget {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          product!['price']!,
+                          product!['price']?.toString() ?? '',
                           style: secondaryTextStyle.copyWith(fontSize: 13),
                         ),
                       ],
@@ -151,6 +146,61 @@ class ChatBubble extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildProductImage() {
+    final imageUrl = product!['image']?.toString() ?? '';
+
+    // Cek apakah gambar dari asset lokal atau URL
+    if (imageUrl.startsWith('assets/')) {
+      return Image.asset(
+        imageUrl,
+        width: 40,
+        height: 40,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return _buildFallbackImage();
+        },
+      );
+    } else {
+      // Gambar dari URL
+      return Image.network(
+        imageUrl,
+        width: 40,
+        height: 40,
+        fit: BoxFit.cover,
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Container(
+            width: 40,
+            height: 40,
+            color: Grey50,
+            child: Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(Cyan),
+                value:
+                    loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes!
+                        : null,
+              ),
+            ),
+          );
+        },
+        errorBuilder: (context, error, stackTrace) {
+          return _buildFallbackImage();
+        },
+      );
+    }
+  }
+
+  Widget _buildFallbackImage() {
+    return Container(
+      width: 40,
+      height: 40,
+      color: Grey50,
+      child: Icon(Icons.image_not_supported_outlined, color: White, size: 16),
     );
   }
 }

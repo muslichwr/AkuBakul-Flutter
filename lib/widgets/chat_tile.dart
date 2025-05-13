@@ -5,20 +5,24 @@ class ChatTile extends StatelessWidget {
   final String name;
   final String lastMessage;
   final String time;
+  final Function()? onTap;
 
   const ChatTile({
     super.key,
     required this.name,
     required this.lastMessage,
     required this.time,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, '/detail-chat', arguments: name);
-      },
+      onTap:
+          onTap ??
+          () {
+            Navigator.pushNamed(context, '/detail-chat', arguments: name);
+          },
       borderRadius: BorderRadius.circular(12),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "948551963617",
+    "project_id": "akubakul",
+    "storage_bucket": "akubakul.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:948551963617:android:42d35066b5505b09fdf8a0",
+        "android_client_info": {
+          "package_name": "com.muslichwr.akubakul"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9APfQsGAemH3-O-TjW2JLZcWv0_LWxds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
