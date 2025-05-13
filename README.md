@@ -1,17 +1,29 @@
-# akubakul
+# AkuBakul
 
-A new Flutter project.
+Aplikasi toko online dibangun dengan Flutter dengan API Local
 
-## Getting Started
+## Fitur
 
-This project is a starting point for a Flutter application.
+- Autentikasi (login/register)
+- Katalog produk
+- Keranjang belanja
+- Wishlist
+- Chat dengan penjual
+- Checkout & pembayaran
+- Profil pengguna
 
-A few resources to get you started if this is your first Flutter project:
+## Stacks
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Flutter
+- Provider (state management)
+- HTTP untuk API
+- Google Fonts
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# AkuBakul-Flutter
+## Pengembangan
+
+Clone repositori ini dan jalankan:
+
+```
+flutter pub get
+flutter run
+```
